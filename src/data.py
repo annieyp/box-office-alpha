@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 def prepare_data(stock):
-    df = yf.download(stock, start=2022-12-1, end=2026-8-14)
+    df = yf.download(stock, start="2022-12-01", end="2026-08-14")
     df = df[['Open', 'High', 'Low', 'Close', 'Volume']]
     df.tail()
 
