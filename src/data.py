@@ -1,11 +1,18 @@
 import yfinance as yf
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 def prepare_data(stock):
     df = yf.download(stock, start="2022-12-01", end="2026-08-14")
     df = df[['Open', 'High', 'Low', 'Close', 'Volume']]
     df.tail()
+
+    df.dropna(inplace=True) 
+    scaler = StandardScaler()
+    transformed_data = scaler.fit_transform(df)
+    df = pd.DataFrame(transformed_data, columns=df.columns, index=df.index)
+    #add outlier detection and removal here if needed
 
     df['Return'] = df['Close'].pct_change()
     df['SMA_5'] = df['Close'].rolling(5).mean() #when sma5 above sma10, momentum picking up
